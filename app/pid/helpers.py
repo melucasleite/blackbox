@@ -31,4 +31,23 @@ def get_current_time():
 
 def log(message, type):
     if (type == "info"):
-        print("[{}] {}".format(get_current_time() / (60 * 60 * 24), message))
+        time = display_time(get_current_time(), 4)
+        print("[{}] {}".format(time, message))
+
+
+def display_time(seconds, granularity=2):
+    result = []
+    intervals = (
+        ('days', 60 * 60 * 24),  # 60 * 60 * 24
+        ('hours', 60 * 60),  # 60 * 60
+        ('minutes', 60),
+        ('seconds', 1),
+    )
+    for name, count in intervals:
+        value = seconds // count
+        if value:
+            seconds -= value * count
+            if value == 1:
+                name = name.rstrip('s')
+            result.append("{} {}".format(value, name))
+    return ', '.join(result[:granularity])

@@ -31,6 +31,8 @@ class MasterController:
     )
 
     def run(self):
+        log("Master program started", "info")
         self.spawn_stage.blocking_loop()
         self.case_run_stage.blocking_loop()
         self.crop_stage.blocking_loop()
+        log("Master program ended", "info")
