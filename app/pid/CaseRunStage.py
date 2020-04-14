@@ -1,42 +1,36 @@
-from app.pid.CaseRunAdjuster import CaseRunAdjuster
-from app.pid.helpers import exceeded_time, get_current_time
+from app.pid.ProportionalAdjuster import ProportionalAdjuster
+from app.pid.PIDController import PIDController
+from app.pid.helpers import exceeded_time, get_current_time, log
 
 
 class CaseRunStage:
-    def __init__(self, GIC_101, TIC_101, HIC_101):
-        self.GIC_adjuster = CaseRunAdjuster(
-            GIC_101,
-            target=1000,
-            delay=60 * 60,
-            steps=12,
-            adjust=(15000 - 1000) / 12)
+    def __init__(self, TIC_101: PIDController, GIC_101: PIDController, HIC_101: PIDController):
+        self.TIC_101 = TIC_101
+        self.GIC_101 = GIC_101
+        self.HIC_101 = HIC_101
+        self.start_time = None
+        self.runtime = 60 * 60 * 24 * 8
+        self.update_frequency = 1
+        self.last_update = None
 
-        self.TIC_adjuster = CaseRunAdjuster(
-            TIC_101,
-            target=20,
-            delay=60 * 60 * 12,
-            steps=6,
-            adjust=0.5)
-
-        self.HIC_adjuster = CaseRunAdjuster(
-            HIC_101,
-            target=98,
-            delay=60 * 60,
-            steps=12,
-            adjust=(98 - 55) / 12)
-
-    runtime = 60 * 60 * 24 * 26
-    start_time = None
-
-    def stop_conditions(self):
-        return not exceeded_time(self.start_time, self.runtime)
-
-    def blocking_loop(self):
-        self.start_time = get_current_time()
-        while not self.stop_conditions():
-            self.loop()
+    def reached_stop_conditions(self):
+        response = exceeded_time(self.start_time, self.runtime)
+        return response
 
     def loop(self):
-        self.GIC_adjuster.loop()
-        self.TIC_adjuster.loop()
-        self.HIC_adjuster.loop()
+        log("Case Run Stage Loop", "debug")
+        if exceeded_time(self.last_update, self.update_frequency):
+            self.last_update = get_current_time()
+            self.TIC_101.loop()
+            self.GIC_101.loop()
+            self.HIC_101.loop()
+
+    def blocking_loop(self):
+        log("Case Run Stage Start", "info")
+        self.start_time = get_current_time()
+        self.last_update = get_current_time()
+        while not self.reached_stop_conditions():
+            self.loop()
+        log("Case Run Stage End", "info")
+
+    # Maintain for 8 days

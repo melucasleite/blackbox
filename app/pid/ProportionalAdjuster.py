@@ -1,10 +1,11 @@
 import time
 
+from app.pid.PIDController import PIDController
 from app.pid.helpers import get_current_time
 
 
-class CaseRunAdjuster:
-    def __init__(self, controller, target, delay, steps, adjust):
+class ProportionalAdjuster:
+    def __init__(self, controller: PIDController, target, delay, steps, adjust):
         self.controller = controller
         self.target = target
         self.delay = delay
@@ -19,13 +20,13 @@ class CaseRunAdjuster:
         elif self.delay_has_passed() and not self.is_last_step():
             self.update()
         elif self.is_last_step():
-            self.set_setpoint(self.target)
+            self.controller.set_setpoint(self.target)
 
     def update(self):
         self.last_update = get_current_time()
         self.step += 1
-        new_setpoint = self.get_setpoint() + self.adjust
-        self.set_setpoint(new_setpoint)
+        new_setpoint = self.controller.get_setpoint() + self.adjust
+        self.controller.set_setpoint(new_setpoint)
 
     def is_first_run(self):
         return self.last_update is None
@@ -35,10 +36,3 @@ class CaseRunAdjuster:
 
     def is_last_step(self):
         return self.step == self.steps
-
-    # Boundary methods
-    def set_setpoint(self, setpoint):
-        self.controller.SetPoint = setpoint
-
-    def get_setpoint(self):
-        return self.controller.SetPoint

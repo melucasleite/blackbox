@@ -1,7 +1,7 @@
 import time
 
 from app.pid.PIDController import PIDController
-from app.pid.helpers import exceeded_time, get_current_time, temperature_reached
+from app.pid.helpers import exceeded_time, get_current_time, temperature_reached, log
 
 
 class SpawnStage:
@@ -23,11 +23,10 @@ class SpawnStage:
 
     def reached_stop_conditions(self):
         response = temperature_reached(self.TIC_101.reading, 23) or exceeded_time(self.start_time, self.runtime)
-        print(response)
         return response
 
     def loop(self):
-        print("spawn stage loop: " + str(get_current_time()))
+        log("Spawn Stage Loop", "debug")
         if self.is_first_run():
             self.start()
         if exceeded_time(self.last_update, self.update_frequency):
@@ -36,10 +35,12 @@ class SpawnStage:
             self.HIC_101.loop()
 
     def blocking_loop(self):
+        log("Spawn stage start", "info")
         if self.is_first_run():
             self.start()
         while not self.reached_stop_conditions():
             self.loop()
+        log("Spawn Stage End", "info")
 
     def is_first_run(self):
         return self.last_update is None

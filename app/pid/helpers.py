@@ -18,12 +18,17 @@ def static_vars(**kwargs):
     return decorate
 
 
-#
-# @static_vars(time=0)
-# def get_current_time():
-#     get_current_time.time += 1
-#     return get_current_time.time
-
-
+@static_vars(time=0)
 def get_current_time():
-    return time.time()
+    get_current_time.time += 1
+    return get_current_time.time
+
+
+#
+# def get_current_time():
+#     return time.time()
+
+
+def log(message, type):
+    if (type == "info"):
+        print("[{}] {}".format(get_current_time() / (60 * 60 * 24), message))

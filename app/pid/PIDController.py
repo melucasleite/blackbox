@@ -25,3 +25,6 @@ class PIDController:
 
     def set_setpoint(self, setpoint):
         self.PID.SetPoint = setpoint
+
+    def get_setpoint(self):
+        return self.PID.SetPoint
