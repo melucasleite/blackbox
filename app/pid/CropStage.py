@@ -10,14 +10,14 @@ class CropStage:
             target=1000,
             delay=60 * 60,
             steps=12,
-            adjust=(15000 - 1000) / 12)
+            adjust=-(15000 - 1000) / 12)
 
         self.TIC_adjuster = ProportionalAdjuster(
             TIC_101,
             target=20,
             delay=60 * 60 * 12,
             steps=6,
-            adjust=0.5)
+            adjust=-1)
 
         self.HIC_adjuster = ProportionalAdjuster(
             HIC_101,
