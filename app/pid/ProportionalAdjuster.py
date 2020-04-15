@@ -1,5 +1,3 @@
-import time
-
 from app.pid.PIDController import PIDController
 from app.pid.helpers import get_current_time
 
@@ -13,19 +11,21 @@ class ProportionalAdjuster:
         self.adjust = adjust
         self.step = 1
         self.last_update = None
+        self.running = True
 
     def loop(self):
-        if self.is_first_run():
-            self.update()
-        elif self.delay_has_passed() and not self.is_last_step():
-            self.update()
-        elif self.is_last_step():
-            self.controller.set_setpoint(self.target)
+        if self.running:
+            if self.is_first_run():
+                self.update()
+            elif self.delay_has_passed() and not self.is_last_step():
+                self.update()
+            elif self.is_last_step():
+                self.last_step()
 
     def update(self):
         self.last_update = get_current_time()
         self.step += 1
-        new_setpoint = self.controller.get_setpoint() + self.adjust
+        new_setpoint = round(self.controller.get_setpoint() + self.adjust)
         self.controller.set_setpoint(new_setpoint)
 
     def is_first_run(self):
@@ -36,3 +36,7 @@ class ProportionalAdjuster:
 
     def is_last_step(self):
         return self.step == self.steps
+
+    def last_step(self):
+        self.controller.set_setpoint(self.target)
+        self.running = False
