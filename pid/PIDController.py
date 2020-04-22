@@ -1,5 +1,5 @@
-from app.pid.PID import PID
-from app.pid.helpers import log
+from pid.PID import PID
+from pid.helpers import log
 
 
 class PIDController:

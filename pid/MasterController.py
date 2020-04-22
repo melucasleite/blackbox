@@ -1,11 +1,9 @@
-import time
-
-from app.pid.CaseRunStage import CaseRunStage
-from app.pid.CropStage import CropStage
-from app.pid.PID import PID
-from app.pid.PIDController import PIDController
-from app.pid.SpawnStage import SpawnStage
-from app.pid.helpers import log
+from pid.CropStage import CropStage
+from pid.PID import PID
+from pid.PIDController import PIDController
+from pid.SpawnStage import SpawnStage
+from pid.Stage import Stage
+from pid.helpers import log
 
 
 class MasterController:
@@ -17,13 +15,30 @@ class MasterController:
     spawn_stage = SpawnStage(
         TIC_101=TIC_101,
         GIC_101=GIC_101,
-        HIC_101=HIC_101)
-
-    case_run_stage = CaseRunStage(
-        TIC_101=TIC_101,
-        GIC_101=GIC_101,
-        HIC_101=HIC_101
+        HIC_101=HIC_101,
     )
+
+    spawn_stage2 = Stage(
+        "Spawn",
+        controllers=[
+            TIC_101,
+            GIC_101,
+            HIC_101
+        ],
+        max_runtime=60 * 60 * 24,
+
+    )
+
+    case_run_stage = Stage(
+        "Case Run",
+        controllers=[
+            TIC_101,
+            GIC_101,
+            HIC_101
+        ],
+        max_runtime=60 * 60 * 24 * 8
+    )
+
     crop_stage = CropStage(
         TIC_101=TIC_101,
         GIC_101=GIC_101,

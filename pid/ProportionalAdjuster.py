@@ -1,5 +1,5 @@
-from app.pid.PIDController import PIDController
-from app.pid.helpers import get_current_time
+from pid.PIDController import PIDController
+from pid.helpers import get_current_time
 
 
 class ProportionalAdjuster:

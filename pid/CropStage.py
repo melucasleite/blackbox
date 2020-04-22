@@ -1,6 +1,6 @@
-from app.pid.ProportionalAdjuster import ProportionalAdjuster
-from app.pid.PIDController import PIDController
-from app.pid.helpers import exceeded_time, log, get_current_time
+from pid.ProportionalAdjuster import ProportionalAdjuster
+from pid.PIDController import PIDController
+from pid.helpers import exceeded_time, log, get_current_time
 
 
 class CropStage:
