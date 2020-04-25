@@ -1,10 +1,6 @@
 # encoding: utf-8
 from datetime import datetime
 
-import enum
-
-from sqlalchemy import Enum
-
 from app import db
 
 controller_modes = ('Manual', 'Auto', 'Master')
