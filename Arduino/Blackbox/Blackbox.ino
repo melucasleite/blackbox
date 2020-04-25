@@ -3,7 +3,7 @@ void setup() {
   Serial.begin(500000); // use the same baud-rate as the python side
 }
 
-const int analog_pins = 6;
+const int analog_pins = 16;
 int readings [analog_pins];
 
 void loop() {
