@@ -8,10 +8,11 @@ def get_reading():
     args = request.args
     port = args.get("port")
     interval = args.get("interval")
+    limit = args.get("limit", 50)
     if not interval:
-        readings = reading.retrieve(port)
+        readings = reading.retrieve(port, limit)
     else:
-        readings = reading.retrieve_every_n(port, interval)
+        readings = reading.retrieve_every_n(port, interval, limit)
     return {
         "readings": [
             {
