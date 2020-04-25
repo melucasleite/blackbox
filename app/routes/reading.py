@@ -7,5 +7,16 @@ from app import app
 def get_reading():
     args = request.args
     port = args.get("port")
-    readings = reading.retrieve(port)
-    return {"readings": [x.to_short_dict() for x in readings]}
+    interval = args.get("interval")
+    if not interval:
+        readings = reading.retrieve(port)
+    else:
+        readings = reading.retrieve_every_n(port, interval)
+    return {
+        "readings": [
+            {
+                "reading": x.reading,
+                "createdAt": x.created_at.isoformat(),
+            } for x in readings
+        ]
+    }
