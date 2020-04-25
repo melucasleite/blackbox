@@ -11,23 +11,33 @@ import time
 import serial
 from serial.tools import list_ports
 
+def get_time():
+    return time.time()
 
 class ArduinoSerialInterface:
     device = None
     arduino = None
+    last_read = 0
+
+    def __init__(self, interval=1):
+        self.interval = interval
 
     def setup(self):
         self.device = self.find_arduino()
-        self.arduino = serial.Serial(self.device, 115200, timeout=.1)
+        self.arduino = serial.Serial(self.device, 500000, timeout=.1)
 
     def loop(self):
-        readings = self.get_readings()
-        print(readings)
-        time.sleep(0.5)
+        if self.elasped_time(self.interval):
+            print(get_time() - self.last_read)
+            readings = self.get_readings()
+            self.last_read = get_time()
+            print(readings)
+
+    def elasped_time(self, interval):
+        return (get_time() - self.last_read) > interval
 
     def get_readings(self):
         self.arduino.write(b"R")
-        time.sleep(1)
         data = self.arduino.readline()[:-2]  # the last bit gets rid of the new-line chars
         if data:
             data = data.decode()
