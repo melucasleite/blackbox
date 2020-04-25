@@ -17,8 +17,8 @@ migrate = flask_migrate.Migrate(app, db)
 
 from app.models import *
 from app.routes import *
-from app.utils import error_handlers
-from app.jobs import serial_com
+# from app.utils import error_handlers
+# from app.jobs import serial_com
 
 # scheduler = BackgroundScheduler(
 #     jobstores={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
