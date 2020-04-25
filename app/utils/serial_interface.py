@@ -67,6 +67,8 @@ class ArduinoSerialInterface:
                 value = analog_pin_with_value.split("R")[1]
                 readings.append({"pin": analog_pin, "value": value})
             return readings
+        else:
+            return []
 
     def store_readings(self, readings):
         payload = [Reading(x["pin"], x["value"]) for x in readings]
