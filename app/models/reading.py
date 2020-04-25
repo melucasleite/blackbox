@@ -14,7 +14,7 @@ class Reading(db.Model):
         self.port = port
         self.reading = reading
         self.deleted = False
-        self.created_at = datetime.now()
+        self.created_at = datetime.utcnow()
 
     def to_short_dict(self):
         return {
