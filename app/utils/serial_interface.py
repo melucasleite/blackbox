@@ -11,6 +11,9 @@ import time
 import serial
 from serial.tools import list_ports
 
+from app import db
+from app.models import Reading
+
 
 def get_time():
     return time.time()
@@ -66,7 +69,9 @@ class ArduinoSerialInterface:
             return readings
 
     def store_readings(self, readings):
-        pass
+        payload = [Reading(x["pin"], x["value"]) for x in readings]
+        db.session.bulk_save_objects(payload)
+        db.session.commit()
 
     def find_arduino(self):
         ports = list_ports.comports(include_links=False)
