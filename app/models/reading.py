@@ -16,12 +16,6 @@ class Reading(db.Model):
         self.deleted = False
         self.created_at = datetime.utcnow()
 
-    def to_short_dict(self):
-        return {
-            "reading": self.reading,
-            "createdAt": self.created_at.isoformat(),
-        }
-
     def to_dict(self):
         return {
             "port": self.port,
