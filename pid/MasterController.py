@@ -12,13 +12,7 @@ class MasterController:
     GIC_101 = PIDController(PID(10, 1, 1), "GIC_101")
     HIC_101 = PIDController(PID(10, 1, 1), "HIC_101")
 
-    spawn_stage = SpawnStage(
-        TIC_101=TIC_101,
-        GIC_101=GIC_101,
-        HIC_101=HIC_101,
-    )
-
-    spawn_stage2 = Stage(
+    spawn_stage = Stage(
         "Spawn",
         controllers=[
             TIC_101,
