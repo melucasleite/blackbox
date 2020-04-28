@@ -1,7 +1,7 @@
 # encoding = utf-8
 
 
-def fetch_every_nth_record(table, n, db, where, limit):
+def fetch_every_nth_record(db, table, n, limit, where=None):
     query = create_query_every_nth_record(table, n, where, limit)
     records = db_perform_query(db, query)
     return records
@@ -26,10 +26,10 @@ def create_query_every_nth_record_MYSQL(table: str, n: int, where: str, limit: i
     SELECT {table}.* FROM {table} INNER JOIN (
         SELECT id FROM (
             SELECT @row:=@row+1 AS rownum, id FROM (
-                SELECT id FROM {table}{where} ORDER BY id desc 
+                SELECT id FROM {table}{where} ORDER BY id desc LIMIT {limit * n} 
             ) AS sorted
         ) as ranked WHERE rownum mod {n} = 0
-    ) AS subset ON subset.id = {table}.id LIMIT {limit}
+    ) AS subset ON subset.id = {table}.id
     """
     return query
 
