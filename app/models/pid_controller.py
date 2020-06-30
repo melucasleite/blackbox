@@ -34,9 +34,9 @@ class PidController(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "P": self.P,
-            "I": self.I,
-            "D": self.D,
+            "P": float(self.P),
+            "I": float(self.I),
+            "D": float(self.D),
             "outputPort": self.output_port,
             "inputPort": self.input_port,
             "deleted": self.deleted,
