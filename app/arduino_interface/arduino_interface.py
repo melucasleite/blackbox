@@ -16,23 +16,6 @@ class ArduinoInterface:
     def __init__(self, port: SerialInterface):
         self.port = port
 
-    def start(self):
-        self.setup()
-        while True:
-            self.loop()
-
-    def setup(self):
-        self.port.connect()
-        time.sleep(1)
-        self.test_write_output()
-
-    def loop(self):
-        if self.passed_time(self.last_read, self.interval):
-            self.last_read = get_time()
-            readings = self.get_analogs()
-            self.store_readings(readings)
-            self.test_write_output()
-
     def get_analogs(self):
         self.port.write("R")
         data = self.port.read()

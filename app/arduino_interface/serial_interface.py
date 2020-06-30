@@ -25,7 +25,7 @@ class SerialInterface:
     last_read = 0
     serial_timeout = 0.1
     serial_baudrate = 500000
-    reconnect_timeout = 1
+    reconnect_timeout = 60 * 1  # every 1 minute
     value = 255
 
     def __init__(self, manufacturer=None):
@@ -69,6 +69,8 @@ class SerialInterface:
                 return ""
         except:
             self.reconnect()
+        finally:
+            return ""
 
     @staticmethod
     def logger(message):
