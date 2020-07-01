@@ -3,6 +3,7 @@ import flask_sqlalchemy
 import flask_migrate
 import logging
 from flask import Flask, Blueprint
+from flask_cors import CORS
 from flask_restful import Api
 
 logging.basicConfig()
@@ -12,10 +13,9 @@ app = Flask(__name__)
 app.config.from_object('config')
 db = flask_sqlalchemy.SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
-
+CORS(app)
 from app.models import *
 from app.resources import *
-
 
 api_errors = {
     'ResourceNotFoundError': {
