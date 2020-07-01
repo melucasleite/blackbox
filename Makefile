@@ -21,6 +21,8 @@ npm-clean:
 npm-init:
 	cd client && npm i
 
+db-init: db-stop db-clean db-start
+
 db-start:
 	docker-compose -p $(PROJECT_NAME) -f 'scripts/db.yml' up -d
 

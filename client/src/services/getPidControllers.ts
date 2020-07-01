@@ -5,6 +5,8 @@ export const formatBody = (response) => {
   return response.body.controllers.map((controller) => {
     if (controller.unit == "percent") {
       controller.unit = "%";
+      controller.reading = controller.reading * 100;
+      controller.setPoint = controller.setPoint * 100;
     }
     return controller;
   });

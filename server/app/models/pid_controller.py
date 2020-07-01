@@ -18,11 +18,13 @@ class PidController(db.Model):
     D = db.Column(db.DECIMAL(10, 2), nullable=True)
     mode = db.Column(db.Enum(*controller_modes))
     unit = db.Column(db.Enum(*units))
+    reading = db.Column(db.DECIMAL(10, 2), nullable=True)
+    set_point = db.Column(db.DECIMAL(10, 2), nullable=True)
 
     output_port = db.Column(db.String(150))
     input_port = db.Column(db.String(150))
 
-    def __init__(self, name, P=1, I=1, D=1, output_port=None, input_port=None, unit=''):
+    def __init__(self, name, P=1, I=1, D=1, output_port=None, input_port=None, unit=None, mode=None):
         self.name = name
         self.P = P
         self.I = I
@@ -31,7 +33,12 @@ class PidController(db.Model):
         self.input_port = input_port
         self.deleted = False
         self.created_at = datetime.utcnow()
+        if not unit:
+            unit = ''
         self.unit = unit
+        if not mode:
+            mode = 'Master'
+        self.mode = mode
 
     def to_dict(self):
         return {
@@ -44,8 +51,8 @@ class PidController(db.Model):
             "inputPort": self.input_port,
             "deleted": self.deleted,
             "createdAt": self.created_at.isoformat(),
-            "mode": "Auto",
-            "reading": 23.5,
+            "mode": self.mode,
+            "reading": float(self.reading),
             "outputs": [
                 {
                     "port": "D0",
@@ -53,5 +60,5 @@ class PidController(db.Model):
                 }
             ],
             "unit": self.unit,
-            "setPoint": 26.2
+            "setPoint": float(self.set_point),
         }
