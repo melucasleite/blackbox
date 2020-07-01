@@ -48,10 +48,6 @@ def upgrade():
     sa.Column('data', sa.JSON(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    db.session.add(PidController("TIC_101"))
-    db.session.add(PidController("HIC_101"))
-    db.session.add(PidController("GIC_101"))
-    db.session.commit()
     # ### end Alembic commands ###
 
 
