@@ -7,13 +7,13 @@ FLASK_DEBUG = True
 
 venv: venv/bin/activate
 
-venv/bin/activate: requirements.txt
-	test -d venv || virtualenv venv
-	venv/bin/pip install -Ur requirements.txt
-	touch venv/bin/activate
+venv/bin/activate: server/requirements.txt
+	cd server && test -d venv || virtualenv venv
+	cd server && venv/bin/pip install -Ur requirements.txt
+	cd server && touch venv/bin/activate
 
 venv-clean:
-	rm -rf venv
+	cd server && rm -rf venv
 
 db-start:
 	docker-compose -p $(PROJECT_NAME) -f 'scripts/db.yml' up -d
@@ -30,9 +30,9 @@ db-logs:
 	docker-compose -p $(PROJECT_NAME) -f 'scripts/db.yml' logs -f
 
 server-start: venv
-	export FLASK_DEBUG=True
-	venv/bin/flask db upgrade
-	venv/bin/python run.py
+	cd server && export FLASK_DEBUG=True
+	cd server && venv/bin/flask db upgrade
+	cd server && venv/bin/python app.py
 
 clean: db-clean venv-clean
 
