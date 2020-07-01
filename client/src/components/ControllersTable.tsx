@@ -50,9 +50,8 @@ const ControllersTable = ({ getPidControllers, controllers, isLoading }) => {
                       </td>
                       <td>
                         {controller.outputs.map((output, index) => (
-                          <p key={index}>
+                          <p className="mb-0" key={index}>
                             {output.port}: {output.value * 100}%
-                            {controller.outputs.length > 1 ? " / " : null}
                           </p>
                         ))}
                       </td>

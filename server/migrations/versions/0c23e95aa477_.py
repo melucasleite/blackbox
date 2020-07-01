@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a66154551af4
+Revision ID: 0c23e95aa477
 Revises: 
-Create Date: 2020-06-30 21:06:20.366572
+Create Date: 2020-07-01 19:39:43.165794
 
 """
 from alembic import op
@@ -10,9 +10,9 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-from app import PidController, db
+from app import db, PidController
 
-revision = 'a66154551af4'
+revision = '0c23e95aa477'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -37,8 +37,13 @@ def upgrade():
     sa.Column('I', sa.DECIMAL(precision=10, scale=2), nullable=True),
     sa.Column('D', sa.DECIMAL(precision=10, scale=2), nullable=True),
     sa.Column('mode', sa.Enum('Manual', 'Auto', 'Master'), nullable=True),
-    sa.Column('output_port', sa.String(length=150), nullable=True),
-    sa.Column('input_port', sa.String(length=150), nullable=True),
+    sa.Column('unit', sa.Enum('F', 'C', 'PPM', 'percent', ''), nullable=True),
+    sa.Column('reading', sa.DECIMAL(precision=10, scale=2), nullable=True),
+    sa.Column('output', sa.DECIMAL(precision=10, scale=2), nullable=True),
+    sa.Column('set_point', sa.DECIMAL(precision=10, scale=2), nullable=True),
+    sa.Column('input_port', sa.Enum('A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15'), nullable=True),
+    sa.Column('output_port', sa.Enum('D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10', 'D11', 'D12', 'D13', 'D44', 'D45', 'D46'), nullable=True),
+    sa.Column('output_port2', sa.Enum('D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10', 'D11', 'D12', 'D13', 'D44', 'D45', 'D46'), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reading',
@@ -49,6 +54,23 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
+    db.session.add(PidController("TIC_101", unit='C', input_port="A0", output_port="D7", output_port2="D10"))
+    db.session.add(PidController("HIC_101", unit='percent', input_port="A1", output_port="D8"))
+    db.session.add(PidController("GIC_101", unit='PPM', input_port="A2", output_port="D9"))
+    db.session.commit()
+    tic_101 = PidController.query.filter_by(name="TIC_101").first()
+    hic_101 = PidController.query.filter_by(name="HIC_101").first()
+    gic_101 = PidController.query.filter_by(name="GIC_101").first()
+    tic_101.reading = 25.6
+    tic_101.set_point = 35.2
+    tic_101.output = 0.5
+    gic_101.reading = 13500
+    gic_101.set_point = 15000
+    gic_101.output = 0.7
+    hic_101.reading = 0.46
+    hic_101.set_point = 0.80
+    hic_101.output = 0.3
+    db.session.commit()
 
 
 def downgrade():
