@@ -1,5 +1,5 @@
 app/jobs.sqlite
-/.pyc
+*.pyc
 server/venv
 /.idea
 /app/migrations
