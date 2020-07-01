@@ -1,4 +1,4 @@
-app/jobs.sqlite
+server/jobs.sqlite
 *.pyc
 server/venv
 /.idea
