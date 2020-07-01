@@ -1,5 +1,6 @@
 import os
 from app.arduino_interface.serial_interface import SerialInterface
+import datetime
 
 
 class MockInterface(SerialInterface):
@@ -23,7 +24,8 @@ class MockInterface(SerialInterface):
         return reading
 
     def generate_mock_analog_readings(self):
-        list = [f'A{x}R{100}' for x in range(0, 16)]
+        value = 100 + datetime.datetime.now().second * 2
+        list = [f'A{x}R{value + x * 5}' for x in range(0, 16)]
         return ''.join(list)
 
     @staticmethod

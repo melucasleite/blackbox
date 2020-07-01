@@ -41,4 +41,14 @@ class PidController(db.Model):
             "inputPort": self.input_port,
             "deleted": self.deleted,
             "createdAt": self.created_at.isoformat(),
+            "mode": "Auto",
+            "reading": 23.5,
+            "outputs": [
+                {
+                    "port": "D0",
+                    "value": 0.25
+                }
+            ],
+            "unit": "ºC",
+            "setPoint": 26.2
         }
