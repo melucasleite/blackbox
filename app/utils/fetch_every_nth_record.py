@@ -8,16 +8,16 @@ def fetch_every_nth_record(db, table, n, limit, where=None):
 
 
 def create_query_every_nth_record(table: str, n: int, where: str, limit: int = 50):
-    query = create_query_every_nth_record_MYSQL(table, n, where, limit)
+    query = create_query_every_nth_record_mysql(table, n, where, limit)
     return query
 
 
 def db_perform_query(db, query: str):
-    result = db_perform_query_SQLalchemy(db, query)
+    result = db_perform_query_sqlalchemy(db, query)
     return result
 
 
-def create_query_every_nth_record_MYSQL(table: str, n: int, where: str, limit: int) -> str:
+def create_query_every_nth_record_mysql(table: str, n: int, where: str, limit: int) -> str:
     if where:
         where = " " + where
     else:
@@ -34,7 +34,7 @@ def create_query_every_nth_record_MYSQL(table: str, n: int, where: str, limit: i
     return query
 
 
-def db_perform_query_SQLalchemy(db, query):
+def db_perform_query_sqlalchemy(db, query):
     query = " ".join(query.split())
     db.engine.execute("set @row:=-1;")
     result = db.engine.execute(query)

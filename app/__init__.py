@@ -14,8 +14,8 @@ db = flask_sqlalchemy.SQLAlchemy(app)
 migrate = flask_migrate.Migrate(app, db)
 
 from app.models import *
-from app.routes import *
-from app.resources.pid_controller import PidControllerResource
+from app.resources import *
+
 
 api_errors = {
     'ResourceNotFoundError': {
@@ -39,5 +39,7 @@ api = Api(
     errors=api_errors,
 )
 
-api.add_resource(PidControllerResource, '/pid_controller/<int:id>', '/pid_controller/')
+api.add_resource(PidControllerResource, '/pid_controller/<int:id>', '/pid_controller')
+api.add_resource(OutputResource, '/output/<int:id>', '/output')
+api.add_resource(ReadingResource, '/reading/<int:id>', '/reading')
 app.register_blueprint(api_v1_blueprint, url_prefix='/api')

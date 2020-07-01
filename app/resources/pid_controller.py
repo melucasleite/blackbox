@@ -14,11 +14,12 @@ class PidControllerResource(Resource):
                 "controllers": [x.to_dict() for x in controllers]
             }
 
-    def post(self):
-        args = request.json
-        name = args.get("name")
-        controller = pid_controller.create(name)
-        return {"controller": controller.to_dict()}
+    #
+    # def post(self):
+    #     args = request.json
+    #     name = args.get("name")
+    #     controller = pid_controller.create(name)
+    #     return {"controller": controller.to_dict()}
 
     def put(self):
         args = request.json
@@ -30,10 +31,10 @@ class PidControllerResource(Resource):
         controller = pid_controller.retrieve(id)
         pid_controller.update(controller, name, P, I, D)
         return {"controller": controller.to_dict()}
-
-    def delete(self):
-        args = request.json
-        id = args.get("id")
-        controller = pid_controller.retrieve(id)
-        pid_controller.delete(controller)
-        return {"message": "Controller deleted."}
+    #
+    # def delete(self):
+    #     args = request.json
+    #     id = args.get("id")
+    #     controller = pid_controller.retrieve(id)
+    #     pid_controller.delete(controller)
+    #     return {"message": "Controller deleted."}
