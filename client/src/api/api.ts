@@ -1,6 +1,6 @@
 import { getRandomVector } from "../utils";
 
-export const fetchPidGraph = (controllerId, scale, dataPoints = 20) => {
+export const fetchPidGraph = (controllerId, scale, dataPoints = 20): any => {
   console.log("fetchPidGraph", controllerId, scale, dataPoints);
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -14,7 +14,7 @@ export const fetchPidGraph = (controllerId, scale, dataPoints = 20) => {
   });
 };
 
-export const fetchControllerParameters = (controllerId) => {
+export const fetchControllerParameters = (controllerId): any => {
   console.log("fetchControllerParameters", controllerId);
   return new Promise((resolve, reject) => {
     setTimeout(() => {

@@ -13,7 +13,7 @@ const ParametersCard = ({ controller }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleSubmit = async (input) => {
-    await updateControllerParameters(input);
+    await updateControllerParameters(controller.id, input);
     await swal("Ok", "Parameters updated.", "success");
     await fetchData();
   };
