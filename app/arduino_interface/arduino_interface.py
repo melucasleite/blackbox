@@ -10,7 +10,6 @@ from app.utils.output_value import OutputValue
 class ArduinoInterface:
     last_read = 0
     interval = 1
-
     value = 0
 
     def __init__(self, port: SerialInterface):
@@ -21,8 +20,10 @@ class ArduinoInterface:
         data = self.port.read()
         readings = []
         for analog_pin_with_value in data.split("A")[1:]:
-            analog_pin = analog_pin_with_value.split("R")[0]
-            value = analog_pin_with_value.split("R")[1]
+            #A<pin0-15>R<0-255>
+            data = analog_pin_with_value.split("R")
+            analog_pin = data[0]
+            value = data[1]
             readings.append({"pin": analog_pin, "value": value})
         return readings
 
