@@ -39,3 +39,6 @@ clean: db-clean venv-clean
 init: clean db-start venv
 
 start: server-start
+
+start-mock:
+	make start MOCK_INTERFACE=True
