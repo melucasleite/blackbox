@@ -15,6 +15,12 @@ venv/bin/activate: server/requirements.txt
 venv-clean:
 	cd server && rm -rf venv
 
+npm-clean:
+	cd client && rm -rf node_modules
+
+npm-init:
+	cd client && npm i
+
 db-start:
 	docker-compose -p $(PROJECT_NAME) -f 'scripts/db.yml' up -d
 
@@ -34,11 +40,12 @@ server-start: venv
 	cd server && venv/bin/flask db upgrade
 	cd server && venv/bin/python app.py
 
-clean: db-clean venv-clean
+clean: db-clean venv-clean npm-clean
 
-init: clean db-start venv
+init: clean db-start venv npm-init
 
-start: server-start
+server-start-mock:
+	make server-start MOCK_INTERFACE=True
 
-start-mock:
-	make start MOCK_INTERFACE=True
+client-start:
+	cd client && npm start

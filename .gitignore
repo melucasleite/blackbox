@@ -2,4 +2,4 @@ server/jobs.sqlite
 *.pyc
 server/venv
 /.idea
-/app/migrations
+client/node_modules
