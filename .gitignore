@@ -3,3 +3,4 @@ server/jobs.sqlite
 server/venv
 /.idea
 client/node_modules
+/client/.idea
