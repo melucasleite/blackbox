@@ -1,4 +1,6 @@
 import { getRandomVector } from "../utils";
+import superagent from 'superagent'
+import { FETCH_CONTROLLERS_ROUTE } from "../constants";
 
 export const fetchPidGraph = (controllerId, scale, dataPoints = 20): any => {
   console.log("fetchPidGraph", controllerId, scale, dataPoints);
@@ -40,17 +42,19 @@ export const updateControllerParameters = (controllerId, parameters) => {
   });
 };
 
-export const fetchControllers = () => {
+export const fetchControllers = async () => {
   console.log("fetchControllers");
-  const controllers = [
-    { name: "TIC_101", id: "TIC_101", type: "pid" },
-    { name: "GIC_101", id: "GIC_101", type: "pid" },
-    { name: "HIC_101", id: "HIC_101", type: "pid" },
-    { name: "DIC_101", id: "DIC_101", type: "output" },
-  ];
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(controllers);
-    }, 650);
-  });
+  const response = await superagent.get(FETCH_CONTROLLERS_ROUTE);
+  return response.body;
+  // const controllers = [
+  //   { name: "TIC_101", id: "TIC_101", type: "pid" },
+  //   { name: "GIC_101", id: "GIC_101", type: "pid" },
+  //   { name: "HIC_101", id: "HIC_101", type: "pid" },
+  //   { name: "DIC_101", id: "DIC_101", type: "output" },
+  // ];
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     resolve(controllers);
+  //   }, 650);
+  // });
 };

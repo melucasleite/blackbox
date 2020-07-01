@@ -23,7 +23,6 @@
     "moment": "^2.24.0",
     "node-sass": "^4.11.0",
     "pandoc": "^0.2.0",
-    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-big-calendar": "^0.20.3",
     "react-data-grid": "^7.0.0-canary.16",
@@ -40,8 +39,15 @@
     "shards-react": "^1.0.0",
     "shortid": "^2.2.14",
     "styled-components": "^5.1.0",
+    "superagent": "^5.3.1",
     "sweetalert": "^2.1.2",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.2",
+    "typescript-fsa-reducers": "latest",
+    "redux-logic": "latest",
+    "redux": "latest",
+    "connected-react-router": "latest",
+    "redux-devtools-extension": "latest",
+    "typescript-fsa": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -65,5 +71,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "prettier": "^2.0.5"
+  }
 }
